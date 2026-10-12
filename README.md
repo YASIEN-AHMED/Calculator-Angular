@@ -1,59 +1,105 @@
-# Calculate
+# 🧮 Calculator Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.20.
+A modern, fully-featured calculator built with **Angular 21** — designed with clean architecture, a stateless calculation engine, and a polished UI supporting both light and dark themes.
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Features
 
-```bash
-ng serve
+- **Full arithmetic support** — addition, subtraction, multiplication, division
+- **Advanced operations** — percentage (`%`), parentheses `()`, sign toggle (`±`), decimal input
+- **Smart percent logic** — context-aware: `200 + 5%` computes as `200 + 10` (5% of 200)
+- **Live expression preview** — see the result before pressing `=`
+- **Calculation history** — browse and reuse previous expressions
+- **Light / Dark theme** — toggle with a click or press `T`
+- **Clipboard copy** — copy results with one click, with visual feedback
+- **Full keyboard support** — use the numpad or keyboard naturally
+- **Error handling** — clear messages for divide-by-zero, overflow, and invalid expressions
+- **Floating-point correction** — mitigates classic JS precision issues (e.g. `0.1 + 0.2`)
+
+---
+
+## 🏗️ Architecture
+
+```
+src/app/
+├── core/
+│   ├── calculator-engine.service.ts   # Stateless parsing & evaluation engine (tokenizer → RPN → result)
+│   ├── history.service.ts             # Manages calculation history (signal-based)
+│   ├── clipboard.service.ts           # Clipboard abstraction
+│   ├── theme.service.ts               # Light/dark theme management
+│   └── models.ts                      # Shared domain types & error codes
+└── features/
+    └── calculator/
+        ├── calculator.ts              # Main UI state machine (routes input → engine)
+        ├── display.ts                 # Expression & result display component
+        └── history-panel.ts          # Collapsible calculation history panel
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The `CalculatorEngine` is a **pure, stateless service** — it never stores state. All UI state is managed in the `Calculator` component using Angular **Signals**.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Getting Started
 
-```bash
-ng generate component component-name
-```
+### Prerequisites
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Node.js `>=18`
+- npm `>=10`
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Install & Run
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open your browser at `http://localhost:4200`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Run Tests
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## ⌨️ Keyboard Shortcuts
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Key | Action |
+|-----|--------|
+| `0–9` | Digit input |
+| `+ - * /` | Operators |
+| `.` or `,` | Decimal point |
+| `%` | Percentage |
+| `( )` | Parentheses |
+| `Enter` or `=` | Evaluate |
+| `Backspace` | Delete last character |
+| `Escape` / `Delete` / `C` | All clear |
+| `S` | Toggle sign (±) |
+| `T` | Toggle light/dark theme |
+| `H` | Clear history |
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Version |
+|-----------|---------|
+| Angular | ^21.2.0 |
+| TypeScript | ~5.9.2 |
+| RxJS | ~7.8.0 |
+| Vitest | ^4.0.8 |
+| Prettier | ^3.8.1 |
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
