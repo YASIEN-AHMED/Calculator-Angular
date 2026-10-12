@@ -1,0 +1,11 @@
+<div class="display" role="status" aria-live="polite">
+  <div
+    class="display-expression"
+    [attr.aria-label]="expressionText() === '' ? 'Empty expression' : 'Expression ' + expressionText()"
+  >{{ expressionText() === '' ? ' ' : expressionText() }}</div>
+  <div
+    class="display-main"
+    [class.display-main--result]="tone() === 'result'"
+    [class.display-main--error]="tone() === 'error'"
+  >{{ mainText() }}</div>
+</div>

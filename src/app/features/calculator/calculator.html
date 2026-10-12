@@ -1,0 +1,74 @@
+<div class="page">
+  <header class="topbar">
+    <h1 class="title">Calculator</h1>
+    <div class="topbar-actions">
+      <button
+        type="button"
+        class="ghost-button"
+        (click)="copyResult()"
+        [disabled]="copyText() === ''"
+        aria-label="Copy result to clipboard"
+        title="Copy result"
+      >
+        <span aria-hidden="true">{{ copied() ? '✓ Copied' : '⧉ Copy' }}</span>
+      </button>
+      <button
+        type="button"
+        class="ghost-button"
+        (click)="toggleTheme()"
+        [attr.aria-label]="theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+        [attr.aria-pressed]="theme() === 'dark'"
+        title="Toggle theme (T)"
+      >
+        <span aria-hidden="true">{{ theme() === 'dark' ? '☀ Light' : '☾ Dark' }}</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="card calc" aria-label="Calculator">
+      <app-calculator-display
+        [expressionText]="topLine()"
+        [mainText]="mainText()"
+        [tone]="tone()"
+      />
+
+      <div class="keypad" role="group" aria-label="Calculator keypad">
+        @for (key of keypad; track key.id) {
+          <button
+            type="button"
+            class="key key--{{ key.kind }}"
+            [class.key--tall]="key.id === 'equals'"
+            (click)="handleKey(key.id)"
+            [attr.aria-label]="key.shortcut ? key.ariaLabel + ', shortcut ' + key.shortcut : key.ariaLabel"
+            [attr.title]="key.shortcut ?? null"
+          >
+            {{ key.label }}
+          </button>
+        }
+      </div>
+
+      <details class="shortcuts">
+        <summary>Keyboard shortcuts</summary>
+        <dl class="shortcuts-list">
+          <div><dt>0–9 + − * / % . ( )</dt><dd>Enter input</dd></div>
+          <div><dt>Enter or =</dt><dd>Calculate</dd></div>
+          <div><dt>Backspace</dt><dd>Delete last character</dd></div>
+          <div><dt>Esc, Del or C</dt><dd>All clear</dd></div>
+          <div><dt>S</dt><dd>Toggle sign (±)</dd></div>
+          <div><dt>T</dt><dd>Toggle light/dark theme</dd></div>
+          <div><dt>H</dt><dd>Clear history</dd></div>
+        </dl>
+      </details>
+    </main>
+
+    <aside class="card history-card" aria-label="History panel">
+      <app-history-panel
+        [entries]="history.entries()"
+        (reuse)="reuseEntry($event)"
+        (remove)="history.remove($event)"
+        (clear)="history.clear()"
+      />
+    </aside>
+  </div>
+</div>

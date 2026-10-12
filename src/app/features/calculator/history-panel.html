@@ -1,0 +1,45 @@
+<section class="history" aria-label="Calculation history">
+  <div class="history-header">
+    <h2 class="history-title">History</h2>
+    <button
+      type="button"
+      class="history-clear"
+      (click)="clear.emit()"
+      [disabled]="entries().length === 0"
+      aria-label="Clear all history"
+      title="Clear history (H)"
+    >
+      Clear
+    </button>
+  </div>
+
+  @if (entries().length === 0) {
+    <p class="history-empty">No calculations yet. Results will appear here.</p>
+  } @else {
+    <ul class="history-list">
+      @for (entry of entries(); track entry.id) {
+        <li class="history-item">
+          <button
+            type="button"
+            class="history-reuse"
+            (click)="reuse.emit(entry)"
+            [attr.aria-label]="'Reuse calculation ' + entry.displayExpression + ' equals ' + entry.result"
+            [title]="'Reuse: ' + entry.displayExpression"
+          >
+            <span class="history-expression">{{ entry.displayExpression }}</span>
+            <span class="history-result">= {{ entry.result }}</span>
+          </button>
+          <button
+            type="button"
+            class="history-remove"
+            (click)="remove.emit(entry.id)"
+            [attr.aria-label]="'Remove ' + entry.displayExpression + ' from history'"
+            title="Remove entry"
+          >
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</section>
